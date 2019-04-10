@@ -757,6 +757,7 @@ extension AssetPlayer {
 // MARK: - AudioSession
 extension AssetPlayer {
     @objc func handleAudioSessionInterruption(notification: Notification) {
+			guard self.state != .paused else { return }
         guard let userInfo = notification.userInfo, let typeInt = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
             let interruptionType = AVAudioSessionInterruptionType(rawValue: typeInt) else { return }
 
