@@ -757,37 +757,7 @@ extension AssetPlayer {
 // MARK: - AudioSession
 extension AssetPlayer {
     @objc func handleAudioSessionInterruption(notification: Notification) {
-
-			guard self.state != .paused else { return }
-
-        guard let userInfo = notification.userInfo, let typeInt = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
-            let interruptionType = AVAudioSessionInterruptionType(rawValue: typeInt) else { return }
-
-        switch interruptionType {
-        case .began:
-            self.state = .interrupted
-        case .ended:
-            do {
-                try AVAudioSession.sharedInstance().setActive(true, with: [])
-
-                if shouldResumePlaybackAfterInterruption == false {
-                    shouldResumePlaybackAfterInterruption = true
-
-                    return
-                }
-
-                guard let optionsInt = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else { return }
-
-                let interruptionOptions = AVAudioSessionInterruptionOptions(rawValue: optionsInt)
-
-                if interruptionOptions.contains(.shouldResume) {
-                    play()
-                }
-            }
-            catch {
-                print("An Error occured activating the audio session while resuming from interruption: \(error)")
-            }
-        }
+			//DELETED: Caused autoplay for paused player
     }
 
     func setupAVAudioSession() {
